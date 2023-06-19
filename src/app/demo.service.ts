@@ -49,9 +49,11 @@ export class DemoService {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login/`,data);
   }
 
-  logOut() : void {
+  /**
+   * The function removes an access token from local storage.
+   */
+  logOut(): void{
     localStorage.removeItem(this.accessToken);
-
   }
 
   getBlogList() {
@@ -65,7 +67,7 @@ export class DemoService {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['userBlog']);
     });
-    return this.http.post(`${this.apiUrl}/create`, data, {headers})
+    return this.http.post(`${this.apiUrl}/create`, data, {headers});
 
   }
 
@@ -83,9 +85,7 @@ export class DemoService {
     last_name: string;
   }) {
     return this.http.post<RegisterResponse>(
-      `${this.apiUrl}/register/`,
-      newUsers
-    );
+      `${this.apiUrl}/register/`,newUsers);
   }
 
 
