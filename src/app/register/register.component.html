@@ -1,0 +1,70 @@
+
+<!-- [formGroup]="form" this line removed from inside the form -->
+<form [formGroup]="form">
+
+  <button class="back" (click)="back()"> Back</button>
+
+  <div class="form-outline container mt-4 mb-4">
+    <label class="form-label" for="form2Example1">Username</label> <br>
+    <span class="text-success">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+    <input type="text" id="form2Example1" class="form-control" formControlName= "username">
+    <div *ngIf="form.get('username')?.invalid && (form.get('username')?.dirty || form.get('username')?.touched || form.get('username == ``'))" class="text-danger">
+      Invalid username.
+    </div>
+  </div>
+
+  <div class="form-outline container mt-4 mb-4">
+    <label class="form-label" for="form2Example1">Password</label>
+    <input type="text" id="form2Example1" class="form-control" formControlName= "password">
+    <span class="text-success">It must contain at least 8 characters.</span>
+    <div *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)" class="text-danger">
+      This password is too short. It must contain at least 8 characters.
+    </div>
+  </div>
+
+  <div class="form-outline container mt-4 mb-4">
+    <label class="form-label" for="form2Example1">Password2</label>
+    <input type="text" id="form2Example1" class="form-control" formControlName= "password2">
+    <div *ngIf="form.get('password2')?.invalid && (form.get('password2')?.dirty || form.get('password2')?.touched)" class="text-danger">
+      password and password2 should match.
+    </div>
+  </div>
+
+  <div class="form-outline container mt-4 mb-4">
+    <label class="form-label" for="form2Example1">Email</label>
+    <input type="email" id="form2Example1" class="form-control" formControlName= "email">
+    <span class="text-success">Ex. hello@gmail.com</span>
+    <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)" class="text-danger">
+      invalid email.
+    </div>
+  </div>
+
+  <div class="form-outline container mt-4 mb-4">
+    <label class="form-label" for="form2Example1">FirstName</label>
+    <input type="text" id="form2Example1" class="form-control" formControlName= "firstName">
+    <div *ngIf="form.get('firstName')?.invalid && (form.get('firstName')?.dirty || form.get('firstName')?.touched)" class="text-danger">
+      firstName is required.
+    </div>
+  </div>
+
+  <div class="form-outline container mt-4 mb-4">
+    <label class="form-label" for="form2Example1">LastName</label>
+    <input type="text" id="form2Example1" class="form-control" formControlName= "lastName">
+    <div *ngIf="form.get('lastName')?.invalid && (form.get('lastName')?.dirty || form.get('lastName')?.touched)" class="text-danger">
+      lastname is also required.
+    </div>
+  </div>
+
+  <div class="container">
+    <button class = "register" type="submit"  (click)="register()" class = "btn btn-primary mb-4">Register</button>
+  </div>
+</form>
+
+
+<!-- <form id="userData" (submit)="submitForm()">
+  <input type="text" name="userName" placeholder="Name" [(ngModel)]="cred.userName" />
+  <input type="password" name="password" placeholder="Password" [(ngModel)]="cred.password"/>
+  <input type="password" name="confirmPassword" placeholder="Password" [(ngModel)]="cred.confirmPassword"/>
+  <input type="submit" id="register" value="Register" />
+</form> -->
+

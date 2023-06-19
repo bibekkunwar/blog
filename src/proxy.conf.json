@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://blog-api-django-rest-framework-production.up.railway.app/api/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}
