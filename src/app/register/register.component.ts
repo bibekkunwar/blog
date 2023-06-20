@@ -60,7 +60,7 @@ export class RegisterComponent implements OnInit{
       next:response => {
         console.log(response)
         alert("registeration successful");
-        this.router.navigate(['/'])
+        this.router.navigate([''])
     },
 
     error: (error: HttpErrorResponse) => {

@@ -116,7 +116,6 @@ export class DemoService {
 
   updatePost(id: string) {
     let headers = this.getHeaders();
-
     return this.http.put(`${this.apiUrl}/update/` + id, { headers });
   }
 }

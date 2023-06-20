@@ -83,8 +83,8 @@ export class UserBlogComponent implements OnInit {
   file!: File;
   formData!: FormData;
   uploadFile(e: any) {
-    this.file = e.target.files[0];
-    console.log(this.file);
+    this.file = e.target.files[1];
+    // console.log(this.file);
   }
 
   addPost() {
@@ -99,6 +99,8 @@ export class UserBlogComponent implements OnInit {
       blog_title: this.postForm.value.title,
       blog_summary: this.postForm.value.summary,
       blog_content: this.postForm.value.description,
+      blog_header_image: this.postForm.value.image,
+
       user: this.userId,
     };
 
@@ -122,7 +124,7 @@ export class UserBlogComponent implements OnInit {
       next: (response) => {
         alert('deleted successfully');
 
-        // this.router.navigate(['userBlog']);
+        window.location.reload();
       },
       error: (error: HttpErrorResponse) => {
         alert(error.error.status);
@@ -133,12 +135,15 @@ export class UserBlogComponent implements OnInit {
   logOut(): void {
     this._apiService.logOut();
     this.router.navigate(['']);
+
   }
 
   editPostForm(postId: number) {
     this.postId=postId
     this._apiService.getPostDetailById(postId).subscribe((res) => {
-      this.createPost(res)
+      this.createPost(res);
+      this.router.navigate(['userBLog'])
+      // window.location.reload();
     });
   }
 }
