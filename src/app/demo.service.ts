@@ -102,10 +102,10 @@ export class DemoService {
     );
   }
 
-  getCurrentDate(): string {
-    const currentDate = new Date();
-    return currentDate.toDateString();
-  }
+  // getCurrentDate(): string {
+  //   const currentDate = new Date();
+  //   return currentDate.toDateString();
+  // }
 
   getPostDetailById(postId: number) {
     return this.http.get(`${this.apiUrl}/detail/${postId}`, {
@@ -114,8 +114,8 @@ export class DemoService {
   }
 
 
-  updatePost(id: string) {
+  updatePost(id: number,data:any) {
     let headers = this.getHeaders();
-    return this.http.put(`${this.apiUrl}/update/` + id, { headers });
+    return this.http.put(`${this.apiUrl}/update/` + id, data,{ headers });
   }
 }

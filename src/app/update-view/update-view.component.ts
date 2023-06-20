@@ -35,11 +35,11 @@ ngOnInit(): void {
     this.location.back();
   }
 
-  postUpdate(id:string) {
-    this._apiService.updatePost(id).subscribe({
-      next: response => {
-alert('post updated successfully')
-      }
-    })
-  }
+//   postUpdate(id:string) {
+//     this._apiService.updatePost(id).subscribe({
+//       next: response => {
+// alert('post updated successfully')
+//       }
+//     })
+//   }
 }

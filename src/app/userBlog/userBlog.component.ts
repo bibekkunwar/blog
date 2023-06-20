@@ -99,24 +99,34 @@ export class UserBlogComponent implements OnInit {
       blog_title: this.postForm.value.title,
       blog_summary: this.postForm.value.summary,
       blog_content: this.postForm.value.description,
-      blog_header_image: this.postForm.value.image,
+
 
       user: this.userId,
     };
 
-    this._apiService.createPost(data).subscribe({
-      next: (response) => {
-        alert('Post registered successfully');
-      },
-      error: (error: HttpErrorResponse) => {
-        if (error.error && error.error.status === 400) {
-          const errorMessages = Object.values(error.error).flat().join(', ');
-          alert(errorMessages || 'Enter valid details');
-        } else {
-          alert('An error occurred. Please try again.');
-        }
-      },
-    });
+    if(this.postId){
+      // update api
+      this._apiService.updatePost(this.postId,data).subscribe(res=>{
+        alert("Üpdate successfully")
+        this.getList()
+      })
+    }else{
+      this._apiService.createPost(data).subscribe({
+        next: (response) => {
+          alert('Post registered successfully');
+          this.getList();
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.error && error.error.status === 400) {
+            const errorMessages = Object.values(error.error).flat().join(', ');
+            alert(errorMessages || 'Enter valid details');
+          } else {
+            alert('An error occurred. Please try again.');
+          }
+        },
+      });
+    }
+
   }
 
   postDeleted(id: string) {
@@ -142,7 +152,7 @@ export class UserBlogComponent implements OnInit {
     this.postId=postId
     this._apiService.getPostDetailById(postId).subscribe((res) => {
       this.createPost(res);
-      this.router.navigate(['userBLog'])
+      this.router.navigate(['userBlog']);
       // window.location.reload();
     });
   }
