@@ -1,35 +1,59 @@
-<div class="container mt-3 mb-4">
-<button class="back" (click)="back()"> Back</button>
-</div>
-
-<!--logout-->
-<div class="container mt-3 mb-4">
-  <button class="LogOut" (click)="logOut()"> LOGOUT</button>
+<div class="d-flex justify-content-space-around">
+  <div class="container mt-3 mb-4">
+    <button class="back d-flex float-right mx-5" (click)="back()">
+      <i class="fa-solid fa-circle-chevron-left"></i>
+    </button>
   </div>
+
+  <!--logout-->
+  <div class="container mt-3 mb-4">
+    <button class="LogOut" (click)="logOut()">
+      LOGOUT <i class="fa-solid fa-right-from-bracket"></i>
+    </button>
+  </div>
+</div>
 
 <!-- form to create a blog post-->
 <div class="container">
   <div class="row">
     <div class="col-md-12 text-center">
-      <p>CREARE A POST</p>
+      <p>{{postId ?'Edit Post':'Create Post'}}</p>
     </div>
   </div>
 </div>
 
-<form  class="container mt-4 mb-5" [formGroup]="postForm">
+<form class="container mt-4 mb-5" [formGroup]="postForm">
   <div class="form-group">
     <label for="title">Title</label>
-    <input type="text" id="title" formControlName="title" class="form-control" required>
+    <input
+      type="text"
+      id="title"
+      formControlName="title"
+      class="form-control"
+      required
+    />
   </div>
 
   <div class="form-group mb-4">
     <label for="summary">Summary</label>
-    <input type="text" id="summary" formControlName="summary" class="form-control" required>
+    <input
+      type="text"
+      id="summary"
+      formControlName="summary"
+      class="form-control"
+      required
+    />
   </div>
 
   <div class="form-group mb-4">
     <label for="description">Description</label>
-    <textarea id="description" formControlName="description" class="form-control" rows="4" required></textarea>
+    <textarea
+      id="description"
+      formControlName="description"
+      class="form-control"
+      rows="7"
+      required
+    ></textarea>
   </div>
 
   <!-- <div class="form-group mb-3">
@@ -37,24 +61,43 @@
     <input type="file" id="image" (change)="uploadFile($event)"  class="form-control-file" formControlName = "image" required>
   </div> -->
 
-  <button type="submit" (click)="addPost()" class="btn btn-primary mb-4">Submit</button>
+  <button type="submit" (click)="addPost()" class="btn btn-primary mb-4">
+    {{postId?'Update':'Submit'}}
+  </button>
 </form>
 
-<p class=" recentText d-flex justify-content-center mt-4 mb-5">Recent posts</p>
+<p class="recentText d-flex justify-content-center mt-4 mb-5">Recent posts</p>
 
 <!-- user specific blogs-->
 
 <div class="container mt-1">
-
   <div class="row">
-    <div class="col-12 col-md-6 col-lg-4 col-xl-4 mb-3" *ngFor="let item of allBlogLists">
+    <div
+      class="col-12 col-md-6 col-lg-4 col-xl-4 mb-4"
+      *ngFor="let item of allBlogLists"
+    >
       <div class="card">
         <div class="card__header">
-          <img src="{{item.blog_header_image}}" alt="card__image" class="card__image" width="600">
+          <img
+            src="{{ item.blog_header_image }}"
+            alt="card__image"
+            class="card__image"
+            width="600"
+          />
         </div>
         <div class="card__body">
-          <h4>{{item.blog_title}}</h4>
-          <p>{{item.blog_summary}}</p>
+          <h4>{{ item.blog_title }}</h4>
+          <p>{{ item.id }}</p>
+          <p>{{ item.blog_summary }}</p>
+          <p>posted on: {{ getCurrentDate() }}</p>
+        </div>
+        <div class="d-flex justify-content-center pb-3">
+          <button class="btn btn-outline-primary" style="margin-right: 0.8em" (click)="editPostForm(item.id)">
+            Edit
+          </button>
+          <button class="btn btn-outline-danger" (click)="postDeleted(item.id)">
+            Delete
+          </button>
         </div>
       </div>
     </div>

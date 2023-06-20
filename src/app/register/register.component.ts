@@ -64,10 +64,23 @@ export class RegisterComponent implements OnInit{
     },
 
     error: (error: HttpErrorResponse) => {
-      if(error.error.status === 400  || error){
-        alert(error.error.detail || "Read the instructions above the input fields and try again. TY");
+      if (error.error && error.error.status === 400) {
+        const errorMessages = Object.values(error.error).flat().join(", ");
+        alert(errorMessages || "Read the instructions above the input fields and try again. TY");
+      } else {
+        alert("An error occurred. Please try again.");
       }
-      }
+    }
+
+
+    // error: (error: HttpErrorResponse) => {
+    //   if(error.error && error.error.status == 400){
+    //     alert(error.error.detail || "Read the instructions above the input fields and try again. TY");
+    //   }
+    //   else{
+    //     alert(JSON.stringify(error) || "Please try again");
+    //   }
+    //   }
 
       }
     );

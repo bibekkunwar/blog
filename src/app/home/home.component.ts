@@ -20,4 +20,11 @@ ngOnInit(): void {
       this.allMighty=allList;
     });
   }
+
+  getCurrentDate(): string{
+    const currentDate = new Date();
+    return currentDate.toDateString();
+  }
+
+
 }

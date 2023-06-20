@@ -7,7 +7,7 @@ export interface LoginResponse {
 }
 
 export interface BlogList {
-
+  id: number;
   user_id: number;
   blog_title: string;
   blog_summary: string,

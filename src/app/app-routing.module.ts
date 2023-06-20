@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { UserBlogComponent } from './userBlog/userBlog.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { UpdateViewComponent } from './update-view/update-view.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path : 'register',
     component: RegisterComponent,
+  },
+  {
+    path: 'updateView',
+    component: UpdateViewComponent,
   }
 ];
 

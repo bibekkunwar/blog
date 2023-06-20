@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { DemoService } from '../demo.service';
 import jwt_decode from 'jwt-decode';
 import { Location } from '@angular/common';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CreatePost } from '../data';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 interface DecodedType {
   user_id: number;
@@ -16,11 +17,20 @@ interface DecodedType {
   styleUrls: ['./userBlog.component.css'],
 })
 export class UserBlogComponent implements OnInit {
+  apiUrl = `https://blog-api-django-rest-framework-production.up.railway.app/api/v1/lists/`;
   postForm!: FormGroup;
   data: any;
   userId!: number;
   allBlogLists: any[] = [];
-  constructor(private _apiService: DemoService, private location: Location, private router: Router) {}
+  posts: any[] | undefined;
+  postId!: number;
+
+  constructor(
+    private _apiService: DemoService,
+    private location: Location,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {
     const encodedToken = JSON.parse(localStorage.getItem('auth_token') || '');
@@ -29,7 +39,11 @@ export class UserBlogComponent implements OnInit {
     this.userId = decodedToken.user_id;
     this.getList();
     this.createPost();
+  }
 
+  getCurrentDate(): string {
+    const currentDate = new Date();
+    return currentDate.toDateString();
   }
 
   getList() {
@@ -45,12 +59,24 @@ export class UserBlogComponent implements OnInit {
     this.location.back();
   }
 
-  createPost() {
+  createPost(item: any = {}) {
+    console.log(item)
     this.postForm = new FormGroup({
-      title: new FormControl(''),
-      summary: new FormControl(''),
-      description: new FormControl(''),
-      image: new FormControl(null),
+      title: new FormControl(
+        item.blog_title ? item.blog_title : '',
+        Validators.required
+      ),
+      summary: new FormControl(
+        item.blog_summary ? item.blog_summary : '',
+        Validators.required
+      ),
+      description: new FormControl(
+        item.blog_content ? item.blog_content : '',
+        Validators.required
+      ),
+      image: new FormControl(
+        item.blog_header_image ? item.blog_header_image : null
+      ),
     });
   }
 
@@ -69,20 +95,50 @@ export class UserBlogComponent implements OnInit {
       this.formData.append('blog_header_image', this.file, this.file.name);
     }
     const data: any = {
+      id: this.postForm.value.id,
       blog_title: this.postForm.value.title,
       blog_summary: this.postForm.value.summary,
       blog_content: this.postForm.value.description,
-      // blog_header_image: this.file,
       user: this.userId,
     };
 
-    this._apiService.createPost(data).subscribe((res) => {
-      console.log(res);
+    this._apiService.createPost(data).subscribe({
+      next: (response) => {
+        alert('Post registered successfully');
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.error && error.error.status === 400) {
+          const errorMessages = Object.values(error.error).flat().join(', ');
+          alert(errorMessages || 'Enter valid details');
+        } else {
+          alert('An error occurred. Please try again.');
+        }
+      },
+    });
+  }
+
+  postDeleted(id: string) {
+    this._apiService.deletePost(id).subscribe({
+      next: (response) => {
+        alert('deleted successfully');
+
+        // this.router.navigate(['userBlog']);
+      },
+      error: (error: HttpErrorResponse) => {
+        alert(error.error.status);
+      },
     });
   }
 
   logOut(): void {
     this._apiService.logOut();
-    this.router.navigate(['/']);
+    this.router.navigate(['']);
+  }
+
+  editPostForm(postId: number) {
+    this.postId=postId
+    this._apiService.getPostDetailById(postId).subscribe((res) => {
+      this.createPost(res)
+    });
   }
 }

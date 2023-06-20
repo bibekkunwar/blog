@@ -1,15 +1,16 @@
 <app-login></app-login>
 
-<div class="container mt-1">
+<div class="container mt-1 ">
   <div class="row">
-    <div class="col-12 col-md-6 col-lg-4 col-xl-4 mb-3" *ngFor="let value of allMighty">
+    <div class="col-12 col-md-12 col-lg-6 col-xl-6 mb-3 btn btn-outline-primary" *ngFor="let value of allMighty">
       <div class="card">
         <div class="card__header">
           <img src="{{value.blog_header_image}}" alt="card__image" class="card__image" width="600">
         </div>
-        <div class="card__body">
+        <div class="card__body" routerLink="updateView">
           <h4>{{value.blog_title}}</h4>
           <p>{{value.blog_summary}}</p>
+          <p> posted on: {{getCurrentDate()}}</p>
         </div>
       </div>
     </div>

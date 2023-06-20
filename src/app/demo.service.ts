@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { BlogList, CreatePost, LoginResponse, RegisterResponse } from './data';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -13,16 +12,19 @@ export class DemoService {
     'https://blog-api-django-rest-framework-production.up.railway.app/api/v1';
 
   accessToken: string = '';
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {}
+
+  getAuthToken() {
     /* `const auth_token= JSON.parse(localStorage.getItem('token') || '')` is retrieving the value of
     the 'token' key from the browser's local storage and parsing it as a JSON object. If the value is
     not found or is empty, it sets the value of `auth_token` to an empty string. */
-     const auth_token= JSON.parse(localStorage.getItem('auth_token') || '')
-    this.accessToken = auth_token.access
-    console.log("access token", this.accessToken)
+    if (localStorage.getItem('auth_token')) {
+      const auth_token = JSON.parse(localStorage.getItem('auth_token') || '');
+
+      this.accessToken = auth_token.access;
+      console.log(this.accessToken);
+    }
   }
-
-
 
   /**
    * This function returns an object containing an authorization header with a bearer token.
@@ -46,29 +48,38 @@ export class DemoService {
    * is expected to be of type `LoginResponse`.
    */
   login(data: { username: string; password: string }) {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login/`,data);
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login/`, data);
+  }
+
+  deletePost(id: string) {
+    let headers = this.getHeaders();
+
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['userBlog']);
+    });
+
+    return this.http.delete(`${this.apiUrl}/delete/` + id, { headers });
   }
 
   /**
-   * The function removes an access token from local storage.
+   * The function removes an auth_token from local storage.
    */
-  logOut(): void{
-    localStorage.removeItem(this.accessToken);
+  logOut(): void {
+    localStorage.removeItem('auth_token');
   }
 
   getBlogList() {
+    this.getAuthToken();
     // let headers = this.getHeaders();
     return this.http.get(`${this.apiUrl}/list/`);
   }
-
 
   createPost(data: any) {
     let headers = this.getHeaders();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['userBlog']);
     });
-    return this.http.post(`${this.apiUrl}/create`, data, {headers});
-
+    return this.http.post(`${this.apiUrl}/create`, data, { headers });
   }
 
   /* The `register()` method is a function that sends a POST request to the API endpoint for user
@@ -76,6 +87,7 @@ export class DemoService {
   properties: `username`, `password`, `password2`, `email`, `first_name`, and `last_name`. These
   properties are used to create a new user account on the server. The response is expected to be of
   type `RegisterResponse`. */
+
   register(newUsers: {
     username: string;
     password: string;
@@ -85,8 +97,26 @@ export class DemoService {
     last_name: string;
   }) {
     return this.http.post<RegisterResponse>(
-      `${this.apiUrl}/register/`,newUsers);
+      `${this.apiUrl}/register/`,
+      newUsers
+    );
+  }
+
+  getCurrentDate(): string {
+    const currentDate = new Date();
+    return currentDate.toDateString();
+  }
+
+  getPostDetailById(postId: number) {
+    return this.http.get(`${this.apiUrl}/detail/${postId}`, {
+      headers: this.getHeaders(),
+    });
   }
 
 
+  updatePost(id: string) {
+    let headers = this.getHeaders();
+
+    return this.http.put(`${this.apiUrl}/update/` + id, { headers });
+  }
 }
