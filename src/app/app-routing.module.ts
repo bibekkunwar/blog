@@ -26,7 +26,7 @@ const routes: Routes = [
     component: RegisterComponent,
   },
   {
-    path: 'updateView',
+    path: 'userBlog/updateView/:postId',
     component: UpdateViewComponent,
   }
 ];

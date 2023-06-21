@@ -38,13 +38,12 @@ export class UserBlogComponent implements OnInit {
     const decodedToken: DecodedType = jwt_decode(encodedToken.refresh);
     this.userId = decodedToken.user_id;
     this.getList();
-    this.createPost();
   }
 
-  getCurrentDate(): string {
-    const currentDate = new Date();
-    return currentDate.toDateString();
-  }
+  // getCurrentDate(): string {
+  //   const currentDate = new Date();
+  //   return currentDate.toDateString();
+  // }
 
   getList() {
     this._apiService.getBlogList().subscribe((res: any) => {
@@ -89,7 +88,6 @@ export class UserBlogComponent implements OnInit {
 
   addPost() {
     this.formData = new FormData();
-    // ... Append other form values
 
     if (this.file) {
       this.formData.append('blog_header_image', this.file, this.file.name);
@@ -99,15 +97,13 @@ export class UserBlogComponent implements OnInit {
       blog_title: this.postForm.value.title,
       blog_summary: this.postForm.value.summary,
       blog_content: this.postForm.value.description,
-
-
       user: this.userId,
     };
 
     if(this.postId){
-      // update api
+
       this._apiService.updatePost(this.postId,data).subscribe(res=>{
-        alert("Üpdate successfully")
+        alert("Update successfully")
         this.getList()
       })
     }else{
@@ -132,9 +128,10 @@ export class UserBlogComponent implements OnInit {
   postDeleted(id: string) {
     this._apiService.deletePost(id).subscribe({
       next: (response) => {
+        this.getList();
+
         alert('deleted successfully');
 
-        window.location.reload();
       },
       error: (error: HttpErrorResponse) => {
         alert(error.error.status);
@@ -148,12 +145,11 @@ export class UserBlogComponent implements OnInit {
 
   }
 
-  editPostForm(postId: number) {
-    this.postId=postId
-    this._apiService.getPostDetailById(postId).subscribe((res) => {
-      this.createPost(res);
-      this.router.navigate(['userBlog']);
-      // window.location.reload();
-    });
-  }
+  // editPostForm(postId: number) {
+  //   this.postId=postId
+  //   this._apiService.getPostDetailById(postId).subscribe((res) => {
+  //     this.createPost(res);
+  //     this.router.navigate(['updateView']);
+  //   });
+  // }
 }

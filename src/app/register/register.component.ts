@@ -39,8 +39,6 @@ export class RegisterComponent implements OnInit{
     const password = this.form.get('password')?.value;
     const password2 = this.form.get('password2')?.value;
 
-
-
     if (password !== password2) {
       alert('Passwords do not match!');
       return;
@@ -90,6 +88,16 @@ export class RegisterComponent implements OnInit{
       this.location.back();
     }
 
+/**
+ * This is a TypeScript function that checks if a FormControl value contains any spaces and returns a
+ * validation error if it does.
+ * @param {FormControl} control - The control parameter is a FormControl object that represents the
+ * form control being validated. It contains the current value of the control and other properties such
+ * as its validation status and error messages.
+ * @returns The function `noSpaceAllowed` returns a `ValidationErrors` object if the input
+ * `FormControl` has a value that contains a space character, and returns `null` otherwise. The
+ * `ValidationErrors` object has a property `noSpaceAllowed` set to `true`.
+ */
 
     noSpaceAllowed(control: FormControl): ValidationErrors | null {
       if(control.value != null && control.value.indexOf(' ')!= -1){

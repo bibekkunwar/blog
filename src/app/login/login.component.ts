@@ -63,6 +63,10 @@ export class LoginComponent implements OnInit {
 
   }
 
+  scrollBottom(){
+    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+  }
+
   register() {
     this.router.navigate(['/register']);
   }

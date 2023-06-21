@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { DemoService } from './demo.service';
 import { UpdateViewComponent } from './update-view/update-view.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { UpdateViewComponent } from './update-view/update-view.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    ReactiveFormsModule
+    CKEditorModule
   ],
   providers: [DemoService],
   bootstrap: [AppComponent]

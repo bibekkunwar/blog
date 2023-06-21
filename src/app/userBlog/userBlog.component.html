@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-space-around">
+<div class="d-flex justify-content-around">
   <!-- <div class="container mt-3 mb-4">
     <button class="back d-flex float-right mx-5" (click)="back()">
       <i class="fa-solid fa-circle-chevron-left"></i>
@@ -7,64 +7,28 @@
 
   <!--logout-->
   <div class="container mt-3 mb-4">
-    <button class="LogOut" (click)="logOut()">
-      LOGOUT <i class="fa-solid fa-right-from-bracket"></i>
+    <div class="d-flex align-items-center justify-content-around ">
+      <button
+        class="back mt-2 mb-4 btn btn-outline-primary"
+        (click)="back()"
+      >
+        <i class="fa-solid fa-circle-chevron-left px-2"></i>
+        Back
+      </button>
+
+      <button class="LogOut" (click)="logOut()">
+        LOGOUT <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </div>
+    <button class="btn btn-outline-primary" [routerLink]="['updateView','']">Create a Post
     </button>
   </div>
 </div>
 
 <!-- form to create a blog post-->
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <p>{{postId ?'Edit Post':'Create Post'}}</p>
-    </div>
-  </div>
-</div>
 
-<form class="container mt-3 mb-2" [formGroup]="postForm">
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input
-      type="text"
-      id="title"
-      formControlName="title"
-      class="form-control"
-      required
-    />
-  </div>
 
-  <div class="form-group mb-4">
-    <label for="summary">Summary</label>
-    <input
-      type="text"
-      id="summary"
-      formControlName="summary"
-      class="form-control"
-      required
-    />
-  </div>
 
-  <div class="form-group mb-4">
-    <label for="description">Description</label>
-    <textarea
-      id="description"
-      formControlName="description"
-      class="form-control"
-      rows="7"
-      required
-    ></textarea>
-  </div>
-
-  <!-- <div class="form-group mb-3">
-    <label for="image">Image</label>
-    <input type="file" id="image" (change)="uploadFile($event)"  class="form-control-file" formControlName = "image" required>
-  </div> -->
-
-  <button type="submit" (click)="addPost()" class="btn btn-primary mb-4">
-    {{postId?'Update':'Submit'}}
-  </button>
-</form>
 
 <p class="recentText d-flex justify-content-center mt-4 mb-5">Recent posts</p>
 
@@ -92,7 +56,7 @@
 
         </div>
         <div class="d-flex justify-content-center pb-3">
-          <button class="btn btn-outline-primary" style="margin-right: 0.8em" (click)="editPostForm(item.id)">
+          <button class="btn btn-outline-primary" style="margin-right: 0.8em" [routerLink]="['updateView',item.id]" >
             Edit
           </button>
           <button class="btn btn-outline-danger" (click)="postDeleted(item.id)">

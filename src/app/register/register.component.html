@@ -49,7 +49,7 @@
                       form.get('username')?.invalid &&
                       (form.get('username')?.dirty ||
                         form.get('username')?.touched ||
-                        form.get('username == ``'))
+                        form.get('username == ` `'))
                     "
                     class="text-danger"
                   >
@@ -169,7 +169,7 @@
 
                 <div class="d-flex justify-content-around mt-3">
                   <button type="button"
-                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
+                    class="btn btn-success btn-block btn-md gradient-custom-4 text-body"
                     (click)="register()" >
                     Register
                   </button>
