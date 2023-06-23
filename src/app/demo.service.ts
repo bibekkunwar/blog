@@ -79,7 +79,7 @@ export class DemoService {
 
   getBlogList() {
     this.getAuthToken();
-    // let headers = this.getHeaders();
+
     return this.http.get(`${this.apiUrl}/list/`);
   }
 
@@ -121,10 +121,6 @@ export class DemoService {
     );
   }
 
-  // getCurrentDate(): string {
-  //   const currentDate = new Date();
-  //   return currentDate.toDateString();
-  // }
 
   getPostDetailById(postId: number) {
     return this.http.get(`${this.apiUrl}/detail/${postId}`, {

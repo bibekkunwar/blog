@@ -5,6 +5,7 @@ import { UserBlogComponent } from './userBlog/userBlog.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { UpdateViewComponent } from './update-view/update-view.component';
+import { DetailPostComponent } from './detail-post/detail-post.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,13 @@ const routes: Routes = [
   {
     path: 'userBlog/updateView/:postId',
     component: UpdateViewComponent,
+  },
+
+  {
+    path: 'userBlog/detailPost/:postId',
+    component: DetailPostComponent,
   }
+
 ];
 
 @NgModule({

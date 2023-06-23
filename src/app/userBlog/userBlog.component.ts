@@ -40,10 +40,7 @@ export class UserBlogComponent implements OnInit {
     this.getList();
   }
 
-  // getCurrentDate(): string {
-  //   const currentDate = new Date();
-  //   return currentDate.toDateString();
-  // }
+
 
   getList() {
     this._apiService.getBlogList().subscribe((res: any) => {
@@ -128,9 +125,10 @@ export class UserBlogComponent implements OnInit {
   postDeleted(id: string) {
     this._apiService.deletePost(id).subscribe({
       next: (response) => {
-        this.getList();
 
         alert('deleted successfully');
+        this.getList();
+
 
       },
       error: (error: HttpErrorResponse) => {
@@ -145,11 +143,4 @@ export class UserBlogComponent implements OnInit {
 
   }
 
-  // editPostForm(postId: number) {
-  //   this.postId=postId
-  //   this._apiService.getPostDetailById(postId).subscribe((res) => {
-  //     this.createPost(res);
-  //     this.router.navigate(['updateView']);
-  //   });
-  // }
 }

@@ -10,5 +10,4 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export class AppComponent {
   title = 'JWT TOKEN';
   public Editor = ClassicEditor;
-
 }

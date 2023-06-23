@@ -6,6 +6,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import jwt_decode from 'jwt-decode';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { FileRepository, UploadAdapter, FileLoader } from '@ckeditor/ckeditor5-upload/src';
+
+
 
 
 interface DecodedType {
@@ -34,6 +37,9 @@ export class UpdateViewComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   )
+
+
+
   {}
 
   ngOnInit(): void {
@@ -75,22 +81,22 @@ export class UpdateViewComponent implements OnInit {
     });
   }
 
-  file!: File;
-  formData!: FormData;
-  uploadFile(e: any) {
-    this.file = e.target.files[1];
-    // console.log(this.file);
-  }
+  // file!: File;
+  // formData!: FormData;
+  // uploadFile(e: any) {
+  //   this.file = e.target.files[1];
+  //   console.log(this.file);
+  // }
 
   addPost() {
-    this.formData = new FormData();
+    // this.formData = new FormData();
 
-    console.log(this.formData);
+    // console.log(this.formData);
     // ... Append other form values
 
-    if (this.file) {
-      this.formData.append('blog_header_image', this.file, this.file.name);
-    }
+    // if (this.file) {
+    //   this.formData.append('blog_header_image', this.file, this.file.name);
+    // }
     const data: any = {
 
       id: this.postForm.value.id,
@@ -136,6 +142,9 @@ export class UpdateViewComponent implements OnInit {
     });
   }
 
+
+
+
   back() {
     this.location.back();
   }
@@ -153,8 +162,5 @@ export class UpdateViewComponent implements OnInit {
   //     })
   //   }
 
-  getCurrentDate(): string{
-    const currentDate = new Date();
-    return currentDate.toDateString();
-  }
+
 }

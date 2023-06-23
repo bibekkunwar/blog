@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import { DemoService } from './demo.service';
 import { UpdateViewComponent } from './update-view/update-view.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { DetailPostComponent } from './detail-post/detail-post.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     UserBlogComponent,
     HomeComponent,
     RegisterComponent,
-    UpdateViewComponent
+    UpdateViewComponent,
+    DetailPostComponent
    ],
   imports: [
     BrowserModule,
