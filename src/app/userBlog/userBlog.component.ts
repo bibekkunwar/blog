@@ -7,6 +7,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CreatePost } from '../data';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
+
+
 interface DecodedType {
   user_id: number;
 }
@@ -14,7 +16,7 @@ interface DecodedType {
 @Component({
   selector: 'app-userBlog',
   templateUrl: './userBlog.component.html',
-  styleUrls: ['./userBlog.component.css'],
+  styleUrls: ['./userBlog.component.scss'],
 })
 export class UserBlogComponent implements OnInit {
   apiUrl = `https://blog-api-django-rest-framework-production.up.railway.app/api/v1/lists/`;
@@ -29,7 +31,8 @@ export class UserBlogComponent implements OnInit {
     private _apiService: DemoService,
     private location: Location,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+
   ) {}
 
   ngOnInit() {
@@ -123,19 +126,28 @@ export class UserBlogComponent implements OnInit {
   }
 
   postDeleted(id: string) {
-    this._apiService.deletePost(id).subscribe({
-      next: (response) => {
 
-        alert('deleted successfully');
-        this.getList();
+    const confirmed = confirm('are you sure? delete!!!');
+
+    if(confirmed){
+      this._apiService.deletePost(id).subscribe({
+        next: (response) => {
+
+          alert('deleted successfully');
+          this.getList();
 
 
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.error.status);
-      },
-    });
+        },
+        error: (error: HttpErrorResponse) => {
+          alert(error.error.status);
+        },
+      });
+    }
+
   }
+
+
+
 
   logOut(): void {
     this._apiService.logOut();

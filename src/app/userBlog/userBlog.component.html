@@ -7,11 +7,8 @@
 
   <!--logout-->
   <div class="container mt-3 mb-4">
-    <div class="d-flex align-items-center justify-content-around ">
-      <button
-        class="back mt-2 mb-4 btn btn-outline-primary"
-        (click)="back()"
-      >
+    <div class="d-flex align-items-center justify-content-around">
+      <button class="back mt-2 mb-4 btn btn-outline-primary" (click)="back()">
         <i class="fa-solid fa-circle-chevron-left px-2"></i>
         Back
       </button>
@@ -20,20 +17,18 @@
         LOGOUT <i class="fa-solid fa-right-from-bracket"></i>
       </button>
     </div>
-    <button class="btn btn-outline-primary" [routerLink]="['updateView','']">Create a Post
+    <button class="btn btn-outline-primary" [routerLink]="['updateView', '']">
+      Create a Post
     </button>
   </div>
 </div>
 
 <!-- form to create a blog post-->
 
-
-
-
-<p class="recentText d-flex justify-content-center mt-4 mb-5">Recent posts</p>
+<!-- <p class="recentText d-flex justify-content-center mt-4 mb-5">Recent posts</p> -->
 
 <!-- user specific blogs-->
-
+<!--
 <div class="container mt-1">
   <div class="row">
     <div
@@ -51,7 +46,7 @@
         </div>
         <div class="card__body">
           <h4>{{ item.blog_title }}</h4>
-          <!-- <p>{{ item.id }}</p> -->
+          <p>{{ item.id }}</p>
           <p>{{ item.blog_summary }}</p>
 
         </div>
@@ -66,4 +61,41 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+
+<section class="light">
+  <div class="container py-2">
+    <div class="h1 text-center text-dark" id="pageHeaderTitle">Blogs Here</div>
+
+    <article class="postcard light blue" *ngFor="let item of allBlogLists">
+      <a class="postcard__img_link" [routerLink]="['detailPost', item.id]">
+        <img
+          class="postcard__img"
+          src="{{ item.blog_header_image }}"
+          alt="Image Title"
+        />
+      </a>
+      <div class="postcard__text t-dark">
+        <h1 class="postcard__title blue"  [routerLink]="['detailPost', item.id]">
+          <a>{{ item.blog_title }}</a>
+        </h1>
+        <h1 class="postcard__title blue"  [routerLink]="['detailPost', item.id]">
+          <a>{{ item.blog_summary }}</a>
+        </h1>
+
+        <div class="postcard__bar"></div>
+        <!-- <div class="postcard__preview-txt">
+          {{ item.blog_description }}
+        </div> -->
+        <ul class="postcard__tagbox">
+          <button class="btn btn-outline-primary" style="margin-right: 0.8em" [routerLink]="['updateView',item.id]" >
+            Edit
+          </button>
+          <button class="btn btn-outline-danger" (click)="postDeleted(item.id)">
+            Delete
+          </button>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>

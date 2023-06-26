@@ -60,13 +60,10 @@ export class DemoService {
 
   deletePost(id: string) {
     let headers = this.getHeaders();
-
-
     // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
     //   this.router.navigate(['userBlog']);
     // });
-    console.log(headers)
-
+    // console.log(headers)
     return this.http.delete(`${this.apiUrl}/delete/` + id, { headers });
   }
 

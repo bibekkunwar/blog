@@ -8,10 +8,15 @@ import { DemoService } from '../demo.service';
 })
 export class HomeComponent implements OnInit {
   allMighty: any;
-  constructor(private _apiService: DemoService){}
+  constructor(private _apiService: DemoService){
+
+
+  }
 
 ngOnInit(): void {
   this.getList();
+
+
 }
   getList() {
     this._apiService.getBlogList().subscribe((res: any) => {
