@@ -36,6 +36,7 @@ const routes: Routes = [
     component: DetailPostComponent,
   }
 
+
 ];
 
 @NgModule({

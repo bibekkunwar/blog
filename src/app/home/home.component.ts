@@ -7,7 +7,7 @@ import { DemoService } from '../demo.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  allMighty: any;
+  allMighty: any[] = [];
   constructor(private _apiService: DemoService){
 
 
@@ -20,16 +20,26 @@ ngOnInit(): void {
 }
   getList() {
     this._apiService.getBlogList().subscribe((res: any) => {
-      const allList=res.results;
+      const filteredList=res.results;
+      console.log("filtered list",filteredList)
+
+       filteredList.map((item:any)=>{
+        const encodedUrl = item.blog_header_image.split('media/')[1];
+        const decodedUrl = decodeURIComponent(encodedUrl);
+        const modifiedUrl = decodedUrl.replace('%3A', ':');
+        const data = { ...item, blog_header_image: modifiedUrl };
+        this.allMighty.push(data)
+      })
       console.log(res)
-      this.allMighty=allList;
+      this.allMighty=filteredList;
     });
+
   }
 
-  getCurrentDate(): string{
-    const currentDate = new Date();
-    return currentDate.toDateString();
-  }
+  // getCurrentDate(): string{
+  //   const currentDate = new Date();
+  //   return currentDate.toDateString();
+  // }
 
 
 }

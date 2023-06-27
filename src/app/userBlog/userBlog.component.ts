@@ -4,10 +4,7 @@ import { DemoService } from '../demo.service';
 import jwt_decode from 'jwt-decode';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CreatePost } from '../data';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-
-
 
 interface DecodedType {
   user_id: number;
@@ -31,27 +28,34 @@ export class UserBlogComponent implements OnInit {
     private _apiService: DemoService,
     private location: Location,
     private router: Router,
-    private http: HttpClient,
-
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
     const encodedToken = JSON.parse(localStorage.getItem('auth_token') || '');
-
     const decodedToken: DecodedType = jwt_decode(encodedToken.refresh);
+
     this.userId = decodedToken.user_id;
     this.getList();
   }
-
-
 
   getList() {
     this._apiService.getBlogList().subscribe((res: any) => {
       const filteredList = res.results.filter(
         (item: any) => item.user_id === this.userId
       );
-      this.allBlogLists = filteredList;
+
+      filteredList.map((item:any)=>{
+        const encodedUrl = item.blog_header_image.split('media/')[1];
+        const decodedUrl = decodeURIComponent(encodedUrl);
+        const modifiedUrl = decodedUrl.replace('%3A', ':');
+        const data = { ...item, blog_header_image: modifiedUrl };
+        this.allBlogLists.push(data)
+      })
+
     });
+
+    console.log(this.allBlogLists)
   }
 
   back() {
@@ -59,7 +63,7 @@ export class UserBlogComponent implements OnInit {
   }
 
   createPost(item: any = {}) {
-    console.log(item)
+    console.log(item);
     this.postForm = new FormGroup({
       title: new FormControl(
         item.blog_title ? item.blog_title : '',
@@ -100,13 +104,12 @@ export class UserBlogComponent implements OnInit {
       user: this.userId,
     };
 
-    if(this.postId){
-
-      this._apiService.updatePost(this.postId,data).subscribe(res=>{
-        alert("Update successfully")
-        this.getList()
-      })
-    }else{
+    if (this.postId) {
+      this._apiService.updatePost(this.postId, data).subscribe((res) => {
+        alert('Update successfully');
+        this.getList();
+      });
+    } else {
       this._apiService.createPost(data).subscribe({
         next: (response) => {
           alert('Post registered successfully');
@@ -122,37 +125,31 @@ export class UserBlogComponent implements OnInit {
         },
       });
     }
-
   }
 
   postDeleted(id: string) {
-
     const confirmed = confirm('are you sure? delete!!!');
 
-    if(confirmed){
+    if (confirmed) {
       this._apiService.deletePost(id).subscribe({
         next: (response) => {
-
           alert('deleted successfully');
           this.getList();
-
-
         },
         error: (error: HttpErrorResponse) => {
           alert(error.error.status);
         },
       });
     }
-
   }
-
-
-
 
   logOut(): void {
     this._apiService.logOut();
     this.router.navigate(['']);
-
   }
 
+
+  refreshToken(){
+
+  }
 }

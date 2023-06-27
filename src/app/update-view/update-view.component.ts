@@ -76,33 +76,31 @@ export class UpdateViewComponent implements OnInit {
         Validators.required
       ),
       image: new FormControl(
-        item.blog_header_image ? item.blog_header_image : null
+        item.blog_header_image ? item.blog_header_image : ''
       ),
     });
   }
 
-  // file!: File;
-  // formData!: FormData;
-  // uploadFile(e: any) {
-  //   this.file = e.target.files[1];
-  //   console.log(this.file);
-  // }
+  file!: File;
+  formData!: FormData;
+  uploadFile(e: any) {
+    this.file = e.target.files[0];
+    console.log(this.file);
+  }
 
   addPost() {
-    // this.formData = new FormData();
+    this.formData = new FormData();
 
-    // console.log(this.formData);
-    // ... Append other form values
-
-    // if (this.file) {
-    //   this.formData.append('blog_header_image', this.file, this.file.name);
-    // }
+    console.log(this.formData);
+    if (this.file) {
+      this.formData.append('blog_header_image', this.file, this.file.name);
+    }
     const data: any = {
-
       id: this.postForm.value.id,
       blog_title: this.postForm.value.title,
       blog_summary: this.postForm.value.summary,
       blog_content: this.postForm.value.description,
+      // blog_header_image: this.postForm.value.image,
       user: this.userId,
     };
 
@@ -154,13 +152,7 @@ export class UpdateViewComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  //   postUpdate(id:string) {
-  //     this._apiService.createPost(id).subscribe({
-  //       next: response => {
-  // alert('post created successfully')
-  //       }
-  //     })
-  //   }
+
 
 
 }

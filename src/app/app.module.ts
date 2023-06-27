@@ -13,6 +13,8 @@ import { DemoService } from './demo.service';
 import { UpdateViewComponent } from './update-view/update-view.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DetailPostComponent } from './detail-post/detail-post.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { DetailPostComponent } from './detail-post/detail-post.component';
     HomeComponent,
     RegisterComponent,
     UpdateViewComponent,
-    DetailPostComponent
+    DetailPostComponent,
+    NavbarComponent
    ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import { DetailPostComponent } from './detail-post/detail-post.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    CKEditorModule
+    CKEditorModule,
+    NgxPaginationModule
   ],
   providers: [DemoService],
   bootstrap: [AppComponent]

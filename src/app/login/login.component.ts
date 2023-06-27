@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DemoService } from '../demo.service';
 import { BlogList } from '../data';
+import { Injectable } from '@angular/core';
 import {
   HttpHeaders,
   HttpClient,
@@ -23,16 +24,16 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
 
   accessToken: any = '';
-  refreshToken: any = '';
+  // refreshToken: any = '';
   data: BlogList[] = [];
 
-  constructor(private _apiService: DemoService, private router: Router) {}
+  constructor(
+    private _apiService: DemoService,
+    private router: Router,
+    private http: HttpClient
+    ) {}
 
- /* `ngOnInit()` is a lifecycle hook in Angular that is called after the component has been
- initialized. In this code, it is used to call the `createForm()` method, which creates a new
- instance of `FormGroup` and assigns it to the `form` property of the component. The `FormGroup` is
- used to create a form with two form controls, `username` and `password`, which are initialized with
- empty string values. This form is used to capture user input for the login process. */
+
   ngOnInit(): void {
     this.createForm();
   }
@@ -52,6 +53,7 @@ export class LoginComponent implements OnInit {
       next: (res) => {
         localStorage.setItem('auth_token', JSON.stringify(res));
         alert("Logged in successfully");
+        this._apiService.setIsLoggedIn(true);
         this.router.navigate(['/userBlog']);
       },
       error: (error: HttpErrorResponse) => {
@@ -63,9 +65,14 @@ export class LoginComponent implements OnInit {
 
   }
 
-  scrollBottom(){
-    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
-  }
+
+
+
+// scroll to bottom of page
+
+  // scrollBottom(){
+  //   window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+  // }
 
   register() {
     this.router.navigate(['/register']);

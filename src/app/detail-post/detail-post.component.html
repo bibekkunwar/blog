@@ -1,10 +1,29 @@
-  <div >
-    <h2>{{ viewAll?.blog_title }}</h2>
-    <p>{{ viewAll?.blog_summary }}</p>
-    <p [innerHTML]="viewAll?.blog_content"></p>
-    <img src="{{viewAll?.blog_header_image }}">
+<app-navbar></app-navbar>
+   <!-- Page content-->
+   <div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Post content-->
+            <article class="d-flex flex-column mb-4">
+                <header class=" mb-4">
+                  <!-- Post title-->
+                  <h1>{{ viewAll?.blog_title }}</h1>
+                  <br>
+                  <h3 class="text-grey">{{ viewAll?.blog_summary}}</h3>
 
-  </div>
+
+              </header>
+
+              <!-- Preview image figure-->
+              <!-- <figure class=" text-center h-50 mb-4"><img class="img-fluid w-75 h-50 rounded " src="./assets/ck.jpg" />
+              </figure> -->
+
+              <p [innerHTML]="viewAll?.blog_content"></p>
+            </article>
+        </div>
+
+    </div>
+</div>
 
 
 

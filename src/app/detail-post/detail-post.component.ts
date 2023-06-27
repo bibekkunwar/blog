@@ -11,6 +11,8 @@ export class DetailPostComponent implements OnInit{
   post: any;
   postId!: number;
   viewAll: any;
+  allBlogLists: any[] = [];
+
 
 
   constructor(
@@ -27,11 +29,15 @@ export class DetailPostComponent implements OnInit{
   viewPost() {
     this._apiService.getPostDetailById(this.postId)
     .subscribe((res:any)=> {
-      const allPost = res;
-      console.log(allPost)
-      this.viewAll = allPost;
+
+      console.log("result",res)
+      const allBlogLists = res;
+      console.log(allBlogLists[1])
+      this.viewAll = allBlogLists;
     })
   }
+
+
 
 
   }

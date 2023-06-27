@@ -46,17 +46,7 @@ background: linear-gradient(to bottom, #2F80ED, #56CCF2);
   color: #fafafa;
 }
 
-.tag-brown {
-  background: #D1913C;
-background: linear-gradient(to bottom, #FFD194, #D1913C);
-  color: #fafafa;
-}
 
-.tag-red {
-  background: #cb2d3e;
-background: linear-gradient(to bottom, #ef473a, #cb2d3e);
-  color: #fafafa;
-}
 
 .card__body h4 {
   font-size: 1.5rem;
@@ -177,6 +167,7 @@ a, a:hover {
 
   .postcard__title {
     font-size: 1.75rem;
+    cursor: pointer;
   }
 
   .postcard__img {
@@ -237,17 +228,17 @@ a, a:hover {
     }
   }
 
-  &:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: linear-gradient(-70deg, #424242, transparent 50%);
-    opacity: 1;
-    border-radius: 10px;
-  }
+  // &:before {
+  //   content: "";
+  //   position: absolute;
+  //   top: 0;
+  //   right: 0;
+  //   bottom: 0;
+  //   left: 0;
+  //   background-image: linear-gradient(-70deg, #424242, transparent 50%);
+  //   opacity: 1;
+  //   border-radius: 10px;
+  // }
 
   &:hover .postcard__bar {
     width: 100px;
@@ -378,43 +369,9 @@ a, a:hover {
 .postcard .postcard__tagbox .red.play:hover {
 	background: $main-red;
 }
-.red .postcard__title:hover {
-	color: $main-red;
-}
-.red .postcard__bar {
-	background-color: $main-red;
-}
-.red::before {
-	background-image: linear-gradient(-30deg, $main-red-rgb-015, transparent 50%);
-}
-.red:nth-child(2n)::before {
-	background-image: linear-gradient(30deg, $main-red-rgb-015, transparent 50%);
-}
 
-.postcard .postcard__tagbox .yellow.play:hover {
-	background: $main-yellow;
-	color: black;
-}
-.yellow .postcard__title:hover {
-	color: $main-yellow;
-}
-.yellow .postcard__bar {
-	background-color: $main-yellow;
-}
-.yellow::before {
-	background-image: linear-gradient(
-		-30deg,
-		$main-yellow-rgb-015,
-		transparent 50%
-	);
-}
-.yellow:nth-child(2n)::before {
-	background-image: linear-gradient(
-		30deg,
-		$main-yellow-rgb-015,
-		transparent 50%
-	);
-}
+
+
 
 @media screen and (min-width: 769px) {
 	.green::before {

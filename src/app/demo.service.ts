@@ -118,6 +118,13 @@ export class DemoService {
     );
   }
 
+  refreshToken(refreshToken:string){
+    const refreshTokenUrl = "https://blog-api-django-rest-framework-production.up.railway.app/api/v1/login/refresh/";
+    const body = {refreshToken:refreshToken};
+
+    return this.http.post(refreshTokenUrl, body);
+    }
+
 
   getPostDetailById(postId: number) {
     return this.http.get(`${this.apiUrl}/detail/${postId}`, {
@@ -129,5 +136,15 @@ export class DemoService {
   updatePost(id: number,data:any) {
     let headers = this.getHeaders();
     return this.http.put(`${this.apiUrl}/update/` + id, data,{ headers });
+  }
+
+  private isLoggedIn: boolean = false;
+
+  getIsLoggedIn(): boolean {
+    return this.isLoggedIn;
+  }
+
+  setIsLoggedIn(value: boolean): void {
+    this.isLoggedIn = value;
   }
 }
