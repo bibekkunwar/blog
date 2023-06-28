@@ -38,6 +38,9 @@
               >Sign Up</a
             >
           </div>
+          <button class="LogOut" *ngIf="authService.getIsLoggedIn()" (click)="logOut()">
+            LOGOUT <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
         </div>
       </div>
     </nav>
