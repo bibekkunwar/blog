@@ -6,16 +6,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import jwt_decode from 'jwt-decode';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { FileRepository, UploadAdapter, FileLoader } from '@ckeditor/ckeditor5-upload/src';
-
-
-
+import {
+  FileRepository,
+  UploadAdapter,
+  FileLoader,
+} from '@ckeditor/ckeditor5-upload/src';
 
 interface DecodedType {
   user_id: number;
-
 }
-
 
 @Component({
   selector: 'app-update-view',
@@ -36,14 +35,15 @@ export class UpdateViewComponent implements OnInit {
     private location: Location,
     private router: Router,
     private route: ActivatedRoute
-  )
-
-
-
-  {}
+  ) {}
 
   ngOnInit(): void {
-
+    this.postForm = new FormGroup({
+      blog_title: new FormControl(),
+      blog_summary: new FormControl(),
+      blog_content: new FormControl(),
+      blog_header_image: new FormControl()
+    });
     const encodedToken = JSON.parse(localStorage.getItem('auth_token') || '');
 
     const decodedToken: DecodedType = jwt_decode(encodedToken.refresh);
@@ -61,24 +61,8 @@ export class UpdateViewComponent implements OnInit {
   }
 
   createPost(item: any = {}) {
-    console.log("item",item);
-    this.postForm = new FormGroup({
-      title: new FormControl(
-        item.blog_title ? item.blog_title : '',
-        Validators.required
-      ),
-      summary: new FormControl(
-        item.blog_summary ? item.blog_summary : '',
-        Validators.required
-      ),
-      description: new FormControl(
-        item.blog_content ? item.blog_content : '',
-        Validators.required
-      ),
-      image: new FormControl(
-        item.blog_header_image ? item.blog_header_image : ''
-      ),
-    });
+    console.log('item', item);
+    this.postForm.patchValue(item);
   }
 
   file!: File;
@@ -95,30 +79,23 @@ export class UpdateViewComponent implements OnInit {
     if (this.file) {
       this.formData.append('blog_header_image', this.file, this.file.name);
     }
-    const data: any = {
-      id: this.postForm.value.id,
-      blog_title: this.postForm.value.title,
-      blog_summary: this.postForm.value.summary,
-      blog_content: this.postForm.value.description,
-      // blog_header_image: this.postForm.value.image,
-      user: this.userId,
-    };
+    const data: any = this.postForm.value;
+    data.user = this.userId;
 
-    console.log("data",data);
+    console.log('data', data);
 
     if (this.postId) {
       // update api
-      this._apiService.updatePost(this.postId, data).subscribe((res) => {
-        alert('Üpdate successfully');
-        this.router.navigate(['userBlog'])
-        this.getList();
-      });
-    }
-    else{
+      this._apiService
+        .updatePost(this.postId, this.postForm.value)
+        .subscribe((res) => {
+          // alert('Üpdate successfully');
+          this.router.navigate(['userBlog']);
+        });
+    } else {
       this._apiService.createPost(data).subscribe({
         next: (response) => {
           alert('Post registered successfully');
-          this.getList();
         },
         error: (error: HttpErrorResponse) => {
           if (error.error && error.error.status === 400) {
@@ -140,9 +117,6 @@ export class UpdateViewComponent implements OnInit {
     });
   }
 
-
-
-
   back() {
     this.location.back();
   }
@@ -151,8 +125,4 @@ export class UpdateViewComponent implements OnInit {
     this._apiService.logOut();
     this.router.navigate(['']);
   }
-
-
-
-
 }

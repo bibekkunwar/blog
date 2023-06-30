@@ -132,6 +132,7 @@ a, a:hover {
 .postcard {
   flex-wrap: wrap;
   display: flex;
+  justify-content: space-between;
 
   box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
   border-radius: 10px;
@@ -173,6 +174,7 @@ a, a:hover {
   .postcard__img {
     max-height: 180px;
     width: 100%;
+    padding: 0 0 0 2rem;
     object-fit: contain;
     position: relative;
   }
@@ -194,6 +196,7 @@ a, a:hover {
     padding: 1.5rem;
     position: relative;
     display: flex;
+    justify-content: flex-end;
     flex-direction: column;
   }
 
@@ -206,10 +209,10 @@ a, a:hover {
 
   .postcard__tagbox {
     display: flex;
-    flex-flow: row wrap;
-    font-size: 14px;
-    margin: 20px 0 0 0;
-		padding: 0;
+    flex-direction: row;
+    font-size: 12px;
+    margin: auto;
+		padding: 10px;
     justify-content: center;
 
     .tag__item {
@@ -228,17 +231,7 @@ a, a:hover {
     }
   }
 
-  // &:before {
-  //   content: "";
-  //   position: absolute;
-  //   top: 0;
-  //   right: 0;
-  //   bottom: 0;
-  //   left: 0;
-  //   background-image: linear-gradient(-70deg, #424242, transparent 50%);
-  //   opacity: 1;
-  //   border-radius: 10px;
-  // }
+
 
   &:hover .postcard__bar {
     width: 100px;
@@ -286,19 +279,7 @@ a, a:hover {
       flex-direction: row;
     }
 
-    // &:nth-child(2n+0) {
-    //   flex-direction: row-reverse;
-    // }
 
-    // &:nth-child(2n+1) .postcard__text::before {
-    //   left: -12px !important;
-    //   transform: rotate(4deg);
-    // }
-
-    // &:nth-child(2n+0) .postcard__text::before {
-    //   right: -12px !important;
-    //   transform: rotate(-4deg);
-    // }
   }
 }
 @media screen and (min-width: 1024px){
@@ -326,6 +307,33 @@ a, a:hover {
 		}
   }
 }
+
+  // &:before {
+  //   content: "";
+  //   position: absolute;
+  //   top: 0;
+  //   right: 0;
+  //   bottom: 0;
+  //   left: 0;
+  //   background-image: linear-gradient(-70deg, #424242, transparent 50%);
+  //   opacity: 1;
+  //   border-radius: 10px;
+  // }
+
+
+ // &:nth-child(2n+0) {
+    //   flex-direction: row-reverse;
+    // }
+
+    // &:nth-child(2n+1) .postcard__text::before {
+    //   left: -12px !important;
+    //   transform: rotate(4deg);
+    // }
+
+    // &:nth-child(2n+0) .postcard__text::before {
+    //   right: -12px !important;
+    //   transform: rotate(-4deg);
+    // }
 
 /* COLORS */
 // .postcard .postcard__tagbox .green.play:hover {

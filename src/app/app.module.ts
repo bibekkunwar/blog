@@ -15,6 +15,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DetailPostComponent } from './detail-post/detail-post.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CKEditorModule,
     NgxPaginationModule
   ],
+
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [DemoService],
   bootstrap: [AppComponent]
 })

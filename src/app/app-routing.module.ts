@@ -34,7 +34,7 @@ const routes: Routes = [
   {
     path: 'userBlog/detailPost/:postId',
     component: DetailPostComponent,
-  }
+  },
 
 
 ];

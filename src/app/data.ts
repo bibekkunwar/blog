@@ -15,14 +15,22 @@ export interface BlogList {
   blog_header_image: string
 }
 
-// export interface RegisterResponse {
-//   username: string;
-//   password : string;
-//   password2 : string;
-//   email: string;
-//   firstName: string;
-//   lastName: string;
-// }
+export interface Blog {
+  id: number;
+  blog_title: string;
+  blog_summary: string;
+  blog_content: string;
+  blog_header_image: string | null;
+  user_id: number;
+  user: number;
+}
+
+export interface BlogListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Blog[];
+}
 
 
 export interface CreatePost {

@@ -32,13 +32,10 @@ export class DetailPostComponent implements OnInit{
 
       console.log("result",res)
       const allBlogLists = res;
-      console.log(allBlogLists[1])
+      // console.log(allBlogLists[1])
       this.viewAll = allBlogLists;
     })
   }
-
-
-
 
   }
 

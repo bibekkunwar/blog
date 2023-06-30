@@ -5,6 +5,8 @@ import jwt_decode from 'jwt-decode';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { PaginationInstance } from 'ngx-pagination';
+import { PaginationControlsComponent } from 'ngx-pagination';
 
 interface DecodedType {
   user_id: number;
@@ -23,6 +25,9 @@ export class UserBlogComponent implements OnInit {
   allBlogLists: any[] = [];
   posts: any[] | undefined;
   postId!: number;
+  totalCount!: number;
+  pageSize: number = 10;
+  pageNo: number = 1;
 
   constructor(
     private _apiService: DemoService,
@@ -36,26 +41,34 @@ export class UserBlogComponent implements OnInit {
     const decodedToken: DecodedType = jwt_decode(encodedToken.refresh);
 
     this.userId = decodedToken.user_id;
-    this.getList();
+    console.log(this.userId);
+    this.getList(this.pageNo, this.pageSize);
   }
 
-  getList() {
-    this._apiService.getBlogList().subscribe((res: any) => {
+  getList(pageNo: number, pageSize: number) {
+    this._apiService.getBlogList(pageNo, pageSize).subscribe((res: any) => {
+      this.totalCount=res.count
       const filteredList = res.results.filter(
         (item: any) => item.user_id === this.userId
       );
+      this.allBlogLists = filteredList;
+      this.totalCount = res.count;
+      // this.allBlogLists = res.results;
 
-      filteredList.map((item:any)=>{
-        const encodedUrl = item.blog_header_image.split('media/')[1];
-        const decodedUrl = decodeURIComponent(encodedUrl);
-        const modifiedUrl = decodedUrl.replace('%3A', ':');
-        const data = { ...item, blog_header_image: modifiedUrl };
-        this.allBlogLists.push(data)
-      })
+      /* The code block is iterating over each item in the `filteredList` array and modifying the
+  `blog_header_image` property of each item. */
+      // filteredList.map((item:any)=>{
+      //   const encodedUrl = item.blog_header_image.split('media/')[1];
+      //   const decodedUrl = decodeURIComponent(encodedUrl);
+      //   const modifiedUrl = decodedUrl.replace('%3A', ':');
+      //   const data = { ...item, blog_header_image: modifiedUrl };
+      //    this.allBlogLists.push(data)
+
+      // })
+      // upto here
+
 
     });
-
-    console.log(this.allBlogLists)
   }
 
   back() {
@@ -107,13 +120,14 @@ export class UserBlogComponent implements OnInit {
     if (this.postId) {
       this._apiService.updatePost(this.postId, data).subscribe((res) => {
         alert('Update successfully');
-        this.getList();
+        // this.getList();
+        this.router.navigate(['userBlog']);
       });
     } else {
       this._apiService.createPost(data).subscribe({
         next: (response) => {
           alert('Post registered successfully');
-          this.getList();
+          this.router.navigate(['userBlog']);
         },
         error: (error: HttpErrorResponse) => {
           if (error.error && error.error.status === 400) {
@@ -134,8 +148,7 @@ export class UserBlogComponent implements OnInit {
       this._apiService.deletePost(id).subscribe({
         next: (response) => {
           alert('deleted successfully');
-          this.getList();
-        },
+                },
         error: (error: HttpErrorResponse) => {
           alert(error.error.status);
         },
@@ -146,10 +159,5 @@ export class UserBlogComponent implements OnInit {
   logOut(): void {
     this._apiService.logOut();
     this.router.navigate(['']);
-  }
-
-
-  refreshToken(){
-
   }
 }

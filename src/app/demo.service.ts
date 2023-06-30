@@ -1,7 +1,8 @@
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BlogList, CreatePost, LoginResponse} from './data';
+import { BlogList, LoginResponse, BlogListResponse } from './data';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +12,20 @@ export class DemoService {
     'https://blog-api-django-rest-framework-production.up.railway.app/api/v1';
 
   accessToken: string = '';
-  constructor(private http: HttpClient, private router: Router) {
+  refreshKeyToken: string = '';
+
+  constructor(public http: HttpClient, private router: Router) {
     this.getHeaders();
     this.getAuthToken();
   }
 
-  getAuthToken() {
+  getPagination(url?: string): Observable<HttpResponse<BlogListResponse>> {
+    const baseUrl = url || `${this.apiUrl}/list/`;
+    return this.http.get<BlogListResponse>(baseUrl, { observe: 'response' });
+  }
 
-  /* This code is checking if there is an item with the key 'auth_token' in the browser's local
+  getAuthToken() {
+    /* This code is checking if there is an item with the key 'auth_token' in the browser's local
   storage. If such an item exists, it retrieves its value and parses it as a JSON object. Then, it
   sets the value of `this.accessToken` to the value of the 'access' property of the parsed JSON
   object. This is done to get the access token needed for making authenticated requests to the API. */
@@ -26,11 +33,20 @@ export class DemoService {
     if (localStorage.getItem('auth_token')) {
       const auth_token = JSON.parse(localStorage.getItem('auth_token') || '');
 
-      console.log(auth_token)
-
       this.accessToken = auth_token.access;
-      console.log(this.accessToken);
+      this.refreshKeyToken = auth_token.refresh;
+
     }
+  }
+
+  refreshToken(): Observable<LoginResponse> {
+
+    const refreshTokenUrl = 'https://blog-api-django-rest-framework-production.up.railway.app/api/v1/refresh/';
+    const payload = {
+      refreshToken: this.refreshKeyToken
+    };
+
+    return this.http.post<LoginResponse>(refreshTokenUrl, payload);
   }
 
   /**
@@ -45,6 +61,12 @@ export class DemoService {
     };
     return headers;
   }
+
+  getAccessToken(): string {
+    return this.accessToken;
+  }
+
+
 
   /**
    * This function sends a POST request to the login endpoint with a username and password and returns a
@@ -74,21 +96,16 @@ export class DemoService {
     localStorage.removeItem('auth_token');
   }
 
-  getBlogList() {
+  getBlogList(pageNo?: number, pageSize?: number): Observable<BlogList> {
     this.getAuthToken();
 
-    return this.http.get(`${this.apiUrl}/list/`);
+    return this.http.get<BlogList>(
+      `${this.apiUrl}/list/?limit=${pageSize}&page_no=${pageNo}`
+    );
   }
 
-  /**
-   * This function creates a new post by sending a POST request to the server with the provided data
-   * and returns the response.
-   * @param {any} data - The `data` parameter is of type `any` and represents the data that will be
-   * sent in the HTTP POST request to the API endpoint. It could be any type of data, such as a JSON
-   * object or a string.
-   * @returns The `createPost` function is returning an HTTP POST request to the specified API endpoint
-   * with the provided data and headers.
-   */
+
+
   createPost(data: any) {
     let headers = this.getHeaders();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -98,11 +115,6 @@ export class DemoService {
     return this.http.post(`${this.apiUrl}/create`, data, { headers });
   }
 
-  /* The `register()` method is a function that sends a POST request to the API endpoint for user
-  registration. It takes an object `newUsers` as a parameter, which contains the following
-  properties: `username`, `password`, `password2`, `email`, `first_name`, and `last_name`. These
-  properties are used to create a new user account on the server. The response is expected to be of
-  type `RegisterResponse`. */
 
   register(newUsers: {
     username: string;
@@ -112,19 +124,23 @@ export class DemoService {
     first_name: string;
     last_name: string;
   }) {
-    return this.http.post(
-      `${this.apiUrl}/register/`,
-      newUsers
-    );
+    return this.http.post(`${this.apiUrl}/register/`, newUsers);
   }
 
-  refreshToken(refreshToken:string){
-    const refreshTokenUrl = "https://blog-api-django-rest-framework-production.up.railway.app/api/v1/login/refresh/";
-    const body = {refreshToken:refreshToken};
+  // refreshToken(refreshToken: string) {
+  //   const refreshTokenUrl =
+  //     'https://blog-api-django-rest-framework-production.up.railway.app/api/v1/login/refresh/';
+  //   const body = { refreshToken: refreshToken };
 
-    return this.http.post(refreshTokenUrl, body);
-    }
+  //   return this.http.post(refreshTokenUrl, body);
+  // }
 
+
+  // refreshToken(payload: TokenModel){
+  //   return this.http.post<TokenModel>(
+  //     `https://blog-api-django-rest-framework-production.up.railway.app/api/v1/login/refresh/`, payload
+  //   );
+  // }
 
   getPostDetailById(postId: number) {
     return this.http.get(`${this.apiUrl}/detail/${postId}`, {
@@ -132,10 +148,9 @@ export class DemoService {
     });
   }
 
-
-  updatePost(id: number,data:any) {
+  updatePost(id: number, data: any) {
     let headers = this.getHeaders();
-    return this.http.put(`${this.apiUrl}/update/` + id, data,{ headers });
+    return this.http.put(`${this.apiUrl}/update/` + id, data, { headers });
   }
 
   private isLoggedIn: boolean = false;

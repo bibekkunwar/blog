@@ -11,14 +11,10 @@
   <!--logout-->
   <div class="container mt-3 mb-4">
     <div class="d-flex align-items-center justify-content-around">
-      <button class="back mt-2 mb-4 btn btn-outline-primary" (click)="back()">
-        <i class="fa-solid fa-circle-chevron-left px-2"></i>
-        Back
-      </button>
 
-      <button class="LogOut" (click)="logOut()">
+      <!-- <button class="LogOut" (click)="logOut()">
         LOGOUT <i class="fa-solid fa-right-from-bracket"></i>
-      </button>
+      </button> -->
     </div>
     <button class="btn btn-outline-primary" [routerLink]="['updateView', '']">
       Create a Post
@@ -70,7 +66,7 @@
   <div class="container py-2">
     <div class="h1 text-center text-dark" id="pageHeaderTitle">Blogs Here</div>
 
-    <article class="postcard light blue cursor-pointer" *ngFor="let item of allBlogLists">
+    <article class="postcard light blue cursor-pointer" *ngFor="let item of allBlogLists |  paginate: { itemsPerPage: pageSize, currentPage: pageNo ,totalItems:totalCount} ">
       <a class="postcard__img_link" [routerLink]="['detailPost', item.id]">
         <img
           class="postcard__img"
@@ -90,15 +86,22 @@
         <!-- <div class="postcard__preview-txt">
           {{ item.blog_description }}
         </div> -->
-        <ul class="postcard__tagbox">
-          <button class="btn btn-outline-primary" style="margin-right: 0.8em" [routerLink]="['updateView',item.id]" >
-            Edit
-          </button>
-          <button class="btn btn-outline-danger" (click)="postDeleted(item.id)">
-            Delete
-          </button>
-        </ul>
+
       </div>
+
+      <ul class="postcard__tagbox">
+        <button class="btn btn-outline-primary" style="margin-right: 0.8em" [routerLink]="['updateView',item.id]" >
+          Edit
+        </button>
+        <button class="btn btn-outline-danger" (click)="postDeleted(item.id)">
+          Delete
+        </button>
+      </ul>
     </article>
+    <pagination-controls (pageChange)="pageNo = $event;getList(pageNo,pageSize)"></pagination-controls>
+
   </div>
 </section>
+
+
+
